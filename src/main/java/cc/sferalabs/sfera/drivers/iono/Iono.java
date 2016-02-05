@@ -8,9 +8,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONObject;
 
 import cc.sferalabs.sfera.core.Configuration;
 import cc.sferalabs.sfera.drivers.Driver;
@@ -26,7 +24,6 @@ public class Iono extends Driver {
 	private InetAddress ipAddress;
 	private int port;
 
-	private JSONParser jsonParser = new JSONParser();
 	private DatagramSocket monitorSocket;
 	int lastPr = -1;
 
@@ -76,7 +73,7 @@ public class Iono extends Driver {
 			DatagramPacket replyPacket = send("state");
 
 			JSONObject obj = getJsonObject(replyPacket);
-			log.debug("State: {}", obj.toJSONString());
+			log.debug("State: {}", obj.toString());
 			ionoId = (String) obj.get("id");
 			for (int i = 1; i <= 6; i++) {
 				Bus.postIfChanged(new IonoDOEvent(this, i, obj.get("DO" + i)));
@@ -94,10 +91,9 @@ public class Iono extends Driver {
 	 * 
 	 * @param packet
 	 * @return
-	 * @throws ParseException
 	 */
-	private JSONObject getJsonObject(DatagramPacket packet) throws ParseException {
-		return (JSONObject) jsonParser.parse(new String(packet.getData()).trim());
+	private JSONObject getJsonObject(DatagramPacket packet) {
+		return new JSONObject(new String(packet.getData()).trim());
 	}
 
 	/**
@@ -129,7 +125,7 @@ public class Iono extends Driver {
 			monitorSocket.receive(updatePacket);
 			if (updatePacket.getAddress().equals(ipAddress)) {
 				JSONObject obj = getJsonObject(updatePacket);
-				log.debug("Update: {}", obj.toJSONString());
+				log.debug("Update: {}", obj.toString());
 				String id = (String) obj.get("id");
 				if (id.equals(ionoId)) {
 					int pr = ((Long) obj.get("pr")).intValue();
@@ -139,10 +135,10 @@ public class Iono extends Driver {
 							getState();
 						}
 
-						String pin = ((String) obj.get("pin"));
+						String pin = ((String) obj.opt("pin"));
 						if (pin != null) {
 							int index = Integer.parseInt(pin.substring(2, 3));
-							Object value = obj.get("val");
+							Object value = obj.opt("val");
 
 							if (pin.charAt(0) == 'D') {
 								if (pin.charAt(1) == 'O') {
@@ -194,7 +190,7 @@ public class Iono extends Driver {
 	public boolean setDo1(Boolean val) {
 		return setDo(1, val);
 	}
-	
+
 	/**
 	 * @param val
 	 * @return
@@ -202,7 +198,7 @@ public class Iono extends Driver {
 	public boolean setDo2(Boolean val) {
 		return setDo(2, val);
 	}
-	
+
 	/**
 	 * @param val
 	 * @return
@@ -210,7 +206,7 @@ public class Iono extends Driver {
 	public boolean setDo3(Boolean val) {
 		return setDo(3, val);
 	}
-	
+
 	/**
 	 * @param val
 	 * @return
@@ -218,7 +214,7 @@ public class Iono extends Driver {
 	public boolean setDo4(Boolean val) {
 		return setDo(4, val);
 	}
-	
+
 	/**
 	 * @param val
 	 * @return
@@ -226,7 +222,7 @@ public class Iono extends Driver {
 	public boolean setDo5(Boolean val) {
 		return setDo(5, val);
 	}
-	
+
 	/**
 	 * @param val
 	 * @return
