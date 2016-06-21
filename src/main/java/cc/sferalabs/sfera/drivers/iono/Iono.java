@@ -18,6 +18,13 @@ import cc.sferalabs.sfera.drivers.iono.events.IonoDIEvent;
 import cc.sferalabs.sfera.drivers.iono.events.IonoDOEvent;
 import cc.sferalabs.sfera.events.Bus;
 
+/**
+ *
+ * @author Giampiero Baggiani
+ *
+ * @version 1.0.0
+ *
+ */
 public class Iono extends Driver {
 
 	private String ionoId;
@@ -184,48 +191,72 @@ public class Iono extends Driver {
 	}
 
 	/**
+	 * Sets digital output DO1 to the specified value.
+	 * 
 	 * @param val
-	 * @return
+	 *            {@code true} to close the output relay, {@code false} to open
+	 *            it
+	 * @return {@code true} if the command succeeded, {@code false} otherwise
 	 */
 	public boolean setDo1(Boolean val) {
 		return setDo(1, val);
 	}
 
 	/**
+	 * Sets digital output DO2 to the specified value.
+	 * 
 	 * @param val
-	 * @return
+	 *            {@code true} to close the output relay, {@code false} to open
+	 *            it
+	 * @return {@code true} if the command succeeded, {@code false} otherwise
 	 */
 	public boolean setDo2(Boolean val) {
 		return setDo(2, val);
 	}
 
 	/**
+	 * Sets digital output DO3 to the specified value.
+	 * 
 	 * @param val
-	 * @return
+	 *            {@code true} to close the output relay, {@code false} to open
+	 *            it
+	 * @return {@code true} if the command succeeded, {@code false} otherwise
 	 */
 	public boolean setDo3(Boolean val) {
 		return setDo(3, val);
 	}
 
 	/**
+	 * Sets digital output DO4 to the specified value.
+	 * 
 	 * @param val
-	 * @return
+	 *            {@code true} to close the output relay, {@code false} to open
+	 *            it
+	 * @return {@code true} if the command succeeded, {@code false} otherwise
 	 */
 	public boolean setDo4(Boolean val) {
 		return setDo(4, val);
 	}
 
 	/**
+	 * Sets digital output DO5 to the specified value.
+	 * 
 	 * @param val
-	 * @return
+	 *            {@code true} to close the output relay, {@code false} to open
+	 *            it
+	 * @return {@code true} if the command succeeded, {@code false} otherwise
 	 */
 	public boolean setDo5(Boolean val) {
 		return setDo(5, val);
 	}
 
 	/**
+	 * Sets digital output DO6 to the specified value.
+	 * 
 	 * @param val
-	 * @return
+	 *            {@code true} to close the output relay, {@code false} to open
+	 *            it
+	 * @return {@code true} if the command succeeded, {@code false} otherwise
 	 */
 	public boolean setDo6(Boolean val) {
 		return setDo(6, val);
@@ -250,9 +281,11 @@ public class Iono extends Driver {
 	}
 
 	/**
+	 * Sets analog output AO1 to the specified voltage value.
 	 * 
 	 * @param val
-	 * @return
+	 *            the voltage value to set (in V), allowed range: 0-10V
+	 * @return {@code true} if the command succeeded, {@code false} otherwise
 	 */
 	public boolean setAo1(float val) {
 		return setPin("AO1", Float.toString(val));
